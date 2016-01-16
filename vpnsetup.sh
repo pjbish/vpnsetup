@@ -90,8 +90,7 @@ cat > /etc/ppp/chap-secrets <<EOF
 # Secrets for authentication using CHAP
 # client	server	secret			IP addresses
 
-$VPN_USER	l2tpd   $VPN_PASSWORD   *
-$VPN_USER	pptpd   $VPN_PASSWORD   *
+$VPN_USER	*   $VPN_PASSWORD   *
 EOF
 
 iptables -t nat -A POSTROUTING -s 192.168.42.0/24 -o eth0 -j MASQUERADE
@@ -114,7 +113,7 @@ chmod a+x /etc/network/if-pre-up.d/iptablesload
 #VPN 2 - Setup PPTP Server
 apt-get install pptpd -y
 echo "localip 10.0.0.1" >> /etc/pptpd.conf
-echo "remoteip 10.0.0.100-200" >> /etc/pptpd.conf
+echo "remoteip 10.0.0.100-10.0.255.255" >> /etc/pptpd.conf
 echo "$VPN_USER pptpd $VPN_PASSWORD *" >> /etc/ppp/chap-secrets
 echo "ms-dns 8.8.8.8" >> /etc/ppp/pptpd-options
 echo "ms-dns 8.8.4.4" >> /etc/ppp/pptpd-options
