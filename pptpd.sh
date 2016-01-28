@@ -21,7 +21,7 @@ lock
 nobsdcomp
 EOF
 
-cat > /etc/pptpd.con <<EOF
+cat > /etc/pptpd.conf <<EOF
 option /etc/ppp/pptpd-options
 logwtmp
 bcrelay eth0
