@@ -2,7 +2,7 @@
 apt-get install pptpd -y
 echo "nospoof on" >> /etc/host.conf
 echo "localip 198.142.70.106" >> /etc/pptpd.conf
-echo "remoteip 192.168.10.100-120" >> /etc/pptpd.conf
+echo "remoteip 192.168.10.1-255" >> /etc/pptpd.conf
 echo "netmask 255.255.255.0" >> /etc/pptpd.conf
 echo "bcrelay eth0" >> /etc/pptpd.conf
 echo "ms-dns 8.8.8.8" >> /etc/ppp/pptpd-options
@@ -34,6 +34,6 @@ iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 sh -c "iptables-save > /etc/iptables.rules"
 
-apt-get -y install denyhosts fail2ban
+apt-get -y install fail2ban
 
 service pptpd restart
