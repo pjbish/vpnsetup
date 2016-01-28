@@ -52,8 +52,9 @@ iptables --table nat --append POSTROUTING   --out-interface ppp0 --jump MASQUERA
 iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 sh -c "iptables-save > /etc/iptables.rules"
+#ubuntu 15.1 work around
 sed -i s/^logwtmp/#logwtmp/ /etc/pptpd.conf
-
+#
 apt-get -y install fail2ban
 
 service pptpd restart
