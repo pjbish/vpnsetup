@@ -1,17 +1,36 @@
 #VPN 2 - Setup PPTP Server
 apt-get install pptpd -y
+
+cat > /etc/ppp/pptpd-options <<EOF
+name pptpd
+refuse-pap
+refuse-chap
+refuse-mschap
+require-mschap-v2
+require-mppe-128
+ms-dns 8.8.8.8
+ms-dns 8.8.4.4
+#ms-wins 10.0.0.3
+#ms-wins 10.0.0.4
+proxyarp
+nodefaultroute
+#debug
+#dump
+netmask 255.255.255.0
+lock
+nobsdcomp
+EOF
+
+cat > /etc/pptpd.con <<EOF
+option /etc/ppp/pptpd-options
+logwtmp
+bcrelay eth0
+localip 198.142.70.106
+remoteip 192.168.10.1-255
+netmask 255.255.255.0
+EOF
+
 echo "nospoof on" >> /etc/host.conf
-echo "localip 198.142.70.106" >> /etc/pptpd.conf
-echo "remoteip 192.168.10.1-255" >> /etc/pptpd.conf
-echo "netmask 255.255.255.0" >> /etc/pptpd.conf
-echo "bcrelay eth0" >> /etc/pptpd.conf
-echo "ms-dns 8.8.8.8" >> /etc/ppp/pptpd-options
-echo "ms-dns 8.8.4.4" >> /etc/ppp/pptpd-options
-echo "proxyarp" >> /etc/ppp/pptpd-options
-echo "nodefaultroute" >> /etc/ppp/pptpd-options
-echo "netmask 255.255.255.0" >> /etc/ppp/pptpd-options
-echo "lock" >> /etc/ppp/pptpd-options
-echo "nobsdcomp" >> /etc/ppp/pptpd-
 
 iptables -F
 iptables -X
