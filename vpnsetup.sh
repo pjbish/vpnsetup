@@ -111,14 +111,5 @@ chmod a+x /etc/network/if-pre-up.d/iptablesload
 /etc/init.d/xl2tpd restart
 
 #VPN 2 - Setup PPTP Server
-apt-get install pptpd -y
-echo "localip 10.0.0.1" >> /etc/pptpd.conf
-echo "remoteip 10.0.0.100-10.0.255.255" >> /etc/pptpd.conf
-echo "$VPN_USER pptpd $VPN_PASSWORD *" >> /etc/ppp/chap-secrets
-echo "ms-dns 8.8.8.8" >> /etc/ppp/pptpd-options
-echo "ms-dns 8.8.4.4" >> /etc/ppp/pptpd-options
-service pptpd restart
-
-echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
-sysctl -p
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE && iptables-save
+wget https://github.com/pjbish/vpnsetup/raw/master/pptpd.sh -O pptpd.sh
+/bin/sh pptpd.sh
