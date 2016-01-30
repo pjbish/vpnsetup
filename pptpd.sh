@@ -79,4 +79,8 @@ sed -i s/^logwtmp/#logwtmp/ /etc/pptpd.conf
 #
 apt-get -y install fail2ban
 
+#install PPTPD monitor
+wget https://github.com/pjbish/pptpd-monitor/raw/master/src/pptpd-monitor.py
+
+#restart
 service pptpd restart
