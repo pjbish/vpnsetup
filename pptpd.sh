@@ -1,4 +1,10 @@
+#!/bin/sh
 #VPN 2 - Setup PPTP Server
+apt-get update
+apt-get upgrade
+
+echo "nospoof on" >> /etc/host.conf
+
 apt-get install pptpd -y
 
 cat > /etc/ppp/pptpd-options <<EOF
@@ -30,7 +36,7 @@ remoteip 192.168.10.1-255
 netmask 255.255.255.0
 EOF
 
-echo "nospoof on" >> /etc/host.conf
+
 
 iptables -F
 iptables -X
@@ -43,6 +49,10 @@ iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 iptables -nvL
 
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+
+sysctl -p
+
 iptables -A INPUT -i eth0 -p tcp --dport 1723 -j ACCEPT
 iptables -A INPUT -i eth0 -p gre -j ACCEPT
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
@@ -52,6 +62,18 @@ iptables --table nat --append POSTROUTING   --out-interface ppp0 --jump MASQUERA
 iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 sh -c "iptables-save > /etc/iptables.rules"
+
+cat > /etc/network/if-pre-up.d/iptablesload <<EOF
+#!/bin/sh
+iptables-restore < /etc/iptables.rules
+exit 0
+EOF
+
+chmod +x /etc/network/if-pre-up.d/iptablesload
+
+apt-get install denyhosts fail2ban
+
+
 #ubuntu 15.1 work around
 sed -i s/^logwtmp/#logwtmp/ /etc/pptpd.conf
 #
