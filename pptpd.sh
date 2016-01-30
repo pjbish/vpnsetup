@@ -1,7 +1,7 @@
 #!/bin/sh
 #VPN 2 - Setup PPTP Server
-apt-get update
-apt-get -y upgrade
+# Update server
+apt-get update && apt-get upgrade -y
 
 echo "nospoof on" >> /etc/host.conf
 
