@@ -87,6 +87,7 @@ apt-get -y install fail2ban
 
 #install PPTPD monitor
 wget https://github.com/pjbish/pptpd-monitor/raw/master/src/pptpd-monitor.py
+echo "debug" >> /etc/ppp/pptpd-options
 
 #restart
 echo "restarting PPTPD"
