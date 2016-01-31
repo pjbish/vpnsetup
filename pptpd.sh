@@ -24,7 +24,7 @@ ms-dns 8.8.4.4
 #ms-wins 10.0.0.4
 proxyarp
 nodefaultroute
-#debug
+debug
 #dump
 netmask 255.255.255.0
 lock
@@ -87,7 +87,6 @@ apt-get -y install fail2ban
 
 #install PPTPD monitor
 wget https://github.com/pjbish/pptpd-monitor/raw/master/src/pptpd-monitor.py
-echo "debug" >> /etc/ppp/pptpd-options
 
 #restart
 echo "restarting PPTPD"
