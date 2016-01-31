@@ -5,7 +5,11 @@ apt-get update && apt-get upgrade -y
 
 echo "nospoof on" >> /etc/host.conf
 
+echo "starting PPTPD install"
 apt-get install pptpd -y
+echo "PPTPD install complete"
+
+echo "updating /etc/ppp/pptpd-options"
 
 cat > /etc/ppp/pptpd-options <<EOF
 name pptpd
@@ -27,6 +31,7 @@ lock
 nobsdcomp
 EOF
 
+echo "updating /etc/pptpd.conf "
 cat > /etc/pptpd.conf <<EOF
 option /etc/ppp/pptpd-options
 logwtmp
@@ -37,7 +42,7 @@ netmask 255.255.255.0
 EOF
 
 
-
+echo "clearing iptables"
 iptables -F
 iptables -X
 iptables -t nat -F
@@ -53,6 +58,7 @@ echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
 sysctl -p
 
+echo "updating iptables"
 iptables -A INPUT -i eth0 -p tcp --dport 1723 -j ACCEPT
 iptables -A INPUT -i eth0 -p gre -j ACCEPT
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
@@ -83,4 +89,5 @@ apt-get -y install fail2ban
 wget https://github.com/pjbish/pptpd-monitor/raw/master/src/pptpd-monitor.py
 
 #restart
+echo "restarting PPTPD"
 service pptpd restart
