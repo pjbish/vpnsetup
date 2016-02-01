@@ -79,11 +79,12 @@ iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
 #apt-get install denyhosts fail2ban
 
-
+echo "15.1 workaround"
 #ubuntu 15.1 work around
 #sed -i s/^logwtmp/#logwtmp/ /etc/pptpd.conf
 #
-#apt-get -y install fail2ban
+echo "installing denyhosts & fail2ban"
+apt-get install denyhosts fail2ban
 
 #install PPTPD monitor
 wget https://github.com/pjbish/pptpd-monitor/raw/master/src/pptpd-monitor.py
