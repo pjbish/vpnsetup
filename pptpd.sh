@@ -1,7 +1,7 @@
 #!/bin/sh
 #VPN 2 - Setup PPTP Server
 # Update server
-apt-get update && apt-get upgrade -y
+#apt-get update && apt-get upgrade -y
 
 echo "nospoof on" >> /etc/host.conf
 
@@ -67,27 +67,27 @@ iptables -A FORWARD -i eth0 -o ppp+ -j ACCEPT
 iptables --table nat --append POSTROUTING   --out-interface ppp0 --jump MASQUERADE
 iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
-sh -c "iptables-save > /etc/iptables.rules"
+#sh -c "iptables-save > /etc/iptables.rules"
 
-cat > /etc/network/if-pre-up.d/iptablesload <<EOF
-#!/bin/sh
-iptables-restore < /etc/iptables.rules
-exit 0
-EOF
+#cat > /etc/network/if-pre-up.d/iptablesload <<EOF
+##!/bin/sh
+#iptables-restore < /etc/iptables.rules
+#exit 0
+#EOF
 
-chmod +x /etc/network/if-pre-up.d/iptablesload
+#chmod +x /etc/network/if-pre-up.d/iptablesload
 
-apt-get install denyhosts fail2ban
+#apt-get install denyhosts fail2ban
 
 
 #ubuntu 15.1 work around
-sed -i s/^logwtmp/#logwtmp/ /etc/pptpd.conf
+#sed -i s/^logwtmp/#logwtmp/ /etc/pptpd.conf
 #
-apt-get -y install fail2ban
+#apt-get -y install fail2ban
 
 #install PPTPD monitor
 wget https://github.com/pjbish/pptpd-monitor/raw/master/src/pptpd-monitor.py
 
 #restart
-echo "restarting PPTPD"
-service pptpd restart
+#echo "restarting PPTPD"
+#service pptpd restart
