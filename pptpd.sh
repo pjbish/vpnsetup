@@ -69,6 +69,15 @@ iptables -A FORWARD -i eth0 -o ppp+ -j ACCEPT
 iptables --table nat --append POSTROUTING   --out-interface ppp0 --jump MASQUERADE
 iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --clamp-mss-to-pmtu
 
+#netflix iptables
+iptables -I FORWARD -d 23.246.0.0/255.255.192.0 -j REJECT
+iptables -I FORWARD -d 37.77.176.0/255.255.240.0 -j REJECT
+iptables -I FORWARD -d 191.45.56.0/255.255.248.0 -j REJECT
+iptables -I FORWARD -d 191.45.48.0/255.255.240.0 -j REJECT
+iptables -I FORWARD -d 198.38.96.0/255.255.224.0 -j REJECT
+iptables -I FORWARD -d 185.2.216.0/255.255.248.0 -j REJECT
+iptables -I FORWARD -d 108.175.32.0/255.255.240.0 -j REJECT
+#end
 #sh -c "iptables-save > /etc/iptables.rules"
 
 #cat > /etc/network/if-pre-up.d/iptablesload <<EOF
