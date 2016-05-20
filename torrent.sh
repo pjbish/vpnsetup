@@ -1,5 +1,7 @@
 #!/bin/sh
 #VPN 2 - Setup PPTP Server
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+iptables -I INPUT 1 -i lo -j ACCEPT
 
 iptables -I INPUT -p udp --dport 1024:1193 -j DROP
 iptables -I INPUT -p udp --dport 1195:1644 -j DROP
