@@ -1,6 +1,6 @@
 #!/bin/sh
-VPN_USER=user
-VPN_PASSWORD=password
+VPN_USER=philtest
+VPN_PASSWORD=crafty1
 IPSEC_PSK=key
 
 # Update server
