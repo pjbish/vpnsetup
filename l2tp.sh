@@ -56,7 +56,7 @@ port = 1701
 ;debug state = yes
 ;debug tunnel = yes
 [lns default]
-ip range = 192.168.42.10-192.168.255.255
+ip range = 192.168.42.10-192.168.42.255
 local ip = 192.168.42.1
 require chap = yes
 refuse pap = yes
@@ -70,8 +70,8 @@ EOF
 cat > /etc/ppp/options.xl2tpd <<EOF
 ipcp-accept-local
 ipcp-accept-remote
-ms-dns 8.8.8.8
-ms-dns 8.8.4.4
+ms-dns 45.32.190.184
+#ms-dns 8.8.4.4
 noccp
 auth
 crtscts
@@ -101,6 +101,31 @@ exit 0
 EOF
 
 chmod a+x /etc/network/if-pre-up.d/iptablesload
+
+#FTP
+apt-get install vsftpd
+rm /etc/vsftpd.conf
+cat > /etc/vsftpd.conf <<EOF
+listen=YES
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+dirmessage_enable=YES
+use_localtime=YES
+xferlog_enable=YES
+connect_from_port_20=YES
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+secure_chroot_dir=/var/run/vsftpd/empty
+pam_service_name=vsftpd
+rsa_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+rsa_private_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+EOF
+
+#monitorx
+apt-get install -y monitorix
+ 
 
 /etc/init.d/ipsec restart
 /etc/init.d/xl2tpd restart
