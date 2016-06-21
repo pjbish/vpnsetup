@@ -78,16 +78,16 @@ iptables -I FORWARD -d 198.38.96.0/255.255.224.0 -j REJECT
 iptables -I FORWARD -d 185.2.216.0/255.255.248.0 -j REJECT
 iptables -I FORWARD -d 108.175.32.0/255.255.240.0 -j REJECT
 #end
-#sh -c "iptables-save > /etc/iptables.rules"
 
-#cat > /etc/network/if-pre-up.d/iptablesload <<EOF
-##!/bin/sh
-#iptables-restore < /etc/iptables.rules
-#exit 0
-#EOF
+sh -c "iptables-save > /etc/iptables.rules"
 
-#chmod +x /etc/network/if-pre-up.d/iptablesload
-#apt-get install denyhosts fail2ban
+cat > /etc/network/if-pre-up.d/iptablesload <<EOF
+#!/bin/sh
+iptables-restore < /etc/iptables.rules
+exit 0
+EOF
+
+chmod +x /etc/network/if-pre-up.d/iptablesload
 
 echo "15.1 workaround"
 #ubuntu 15.1 work around
