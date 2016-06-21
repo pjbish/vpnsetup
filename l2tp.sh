@@ -26,7 +26,8 @@ conn vpnpsk
   auto=add
   left=$PRIVATE_IP
   leftid=$PUBLIC_IP
-  leftsubnet=$PRIVATE_IP/32
+  #leftsubnet=$PRIVATE_IP/32 ## removed as doesn't work on Vultr ##
+  leftsubnet=$PUBLIC_IP/32
   leftnexthop=%defaultroute
   leftprotoport=17/1701
   rightprotoport=17/%any
